@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}
+    HomePage!
+{% endblock %}
+
+{% block content %}
+    <b>hello world!</b><br/>
+
+    <ul class="posts">
+        {% for post in posts %}
+            <li>
+                <a href={{ url_for('post',post_id=post.post_id) }}><h3>{{ post.title }}</h3><br/></a>
+                <i>日期：{{ post.date }}  tags：{{ post.tags }}</i>
+                <p>{{ post.subtitle }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
