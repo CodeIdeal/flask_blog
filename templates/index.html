@@ -5,7 +5,7 @@
 
 {% block content %}
     <b>hello world!</b><br/>
-
+    <a href={{ url_for('edit') }}>新增文章</a>
     <ul class="posts">
         {% for post in posts %}
             <li>

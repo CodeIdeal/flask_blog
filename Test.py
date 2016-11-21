@@ -1,5 +1,6 @@
-import markdown
+import os
+from blog import allowed_file
 
-s = open('route.md', 'r', encoding='utf-8').read()
-html = markdown.markdown(s, extensions=['markdown.extensions.extra', 'codehilite'])
-print(html)
+
+a = "12312.txt"
+print(allowed_file(a))

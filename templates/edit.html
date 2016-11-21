@@ -4,16 +4,18 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{{ url_for('add') }}" method=post>
+    <form action="{{ url_for('add') }}" method=post class="add">
         <dl>
             <dt>title:</dt>
             <dd><input type=text size=30 name=title></dd>
             <dt>subtitle:</dt>
-            <dd><input type=text size=30 name=title></dd>
+            <dd><input type=text size=30 name=subtitle></dd>
             <dt>tags:</dt>
-            <dd><input type=text size=30 name=title></dd>
+            <dd><input type=text size=30 name=tags></dd>
             <dt>content:</dt>
-            <dd><input type=text size=30 name=title></dd>
+            <dd><input type=text size=30 name=content></dd>
+            <dd><input type="submit" value="Submit"></dd>
         </dl>
+
     </form>
 {% endblock %}

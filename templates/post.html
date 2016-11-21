@@ -9,4 +9,9 @@
     <i>{{ post.subtitle }}</i><br/>
     <p>{{ post.content }}</p>
 
+    <form action="{{ url_for('delete',post_id=post.post_id) }}" method=post class="delete">
+        <dl>
+            <dd><input type="submit" value="删除该文章"></dd>
+        </dl>
+    </form>
 {% endblock %}

@@ -1,9 +1,16 @@
+import os
 import sqlite3
-from flask import Flask, render_template, request
+
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['DB_PATH'] = "C:/Users/woshi/PycharmProjects/blog/blog.db"
 app.config['HAS_INIT_DB'] = True
+app.config['USER_NAME'] = 'kaka'
+app.config['USER_PASSWD'] = '2333'
+app.config['UPLOAD_FOLDER'] = "C:/Users/woshi/PycharmProjects/blog/static/up_down_load"
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 @app.route('/')
@@ -12,54 +19,100 @@ def index():
     return render_template("index.html", posts=posts)
 
 
+@app.route('/download/<string:src>')
+def download(src):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], src)
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join((app.config['UPLOAD_FOLDER']), filename))
+        return redirect(url_for('files'))
+    return redirect(url_for('error'))
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+@app.route('/error')
+def error():
+    return render_template("error.html")
+
+
+@app.route('/files')
+def files():
+    dir_files = []
+    for i in os.listdir(app.config['UPLOAD_FOLDER']):
+        dir_files.append(i)
+    return render_template("fileManager.html", files=dir_files)
+
+
 @app.route('/post/<int:post_id>')
 def post(post_id):
     poster = get_post(post_id)
     return render_template("post.html", post=poster)
 
 
-@app.route('/add')
+@app.route('/add', methods=['POST'])
 def add():
-    add_post(request.form[0], request.form[1], request.form[2], request.form[3], date())
-    posts = get_posts()
-    return render_template("index.html", posts=posts)
+    add_post(request.form['title'], request.form['subtitle'], request.form['content'], request.form['tags'], sqlite3.Date.today())
+    return redirect(url_for('index'))
 
 
-def add_post(title, subtitle, content, tags, date):
-    get_cursor().execute("insert into posts (title,subtitle,content,tags,date) values(?,?,?,?)"
-                         , [title, subtitle, content, tags, date])
-    get_db().commit()
+@app.route('/edit')
+def edit():
+    return render_template("edit.html")
+
+
+@app.route('/delete/<int:post_id>', methods=['POST'])
+def delete(post_id):
+    delete_post(post_id)
+    return redirect(url_for('index'))
+
+
+def add_post(title, subtitle, content, tags, post_date):
+    db = get_db()
+    db.execute("insert into posts (title,subtitle,content,tags,post_date) values(?,?,?,?,?)"
+               , [title, subtitle, content, tags, post_date])
+    db.commit()
+
+
+def delete_post(post_id):
+    db = get_db()
+    db.execute("DELETE FROM posts WHERE post_id = ?", (post_id,))
+    db.commit()
 
 
 def get_posts():
-    cursor = get_cursor().execute("select post_id, title, subtitle, tags, date from posts ORDER BY post_id DESC ")
+    cursor = get_cursor().execute("select post_id, title, subtitle, tags, post_date from posts ORDER BY post_id DESC ")
     return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4])for row in cursor.fetchall()]
 
 
 def get_post(pots_id):
-    cursor = get_cursor().execute("select title, subtitle, content, tags, date from posts WHERE post_id=?", (pots_id,))
+    cursor = get_cursor().execute("select post_id, title, subtitle, content, tags, post_date from posts WHERE post_id=?", (pots_id,))
     poster = cursor.fetchone()
-    return dict(title=poster[0], subtitle=poster[1], content=poster[2], tags=poster[3], date=poster[4])
+    return dict(post_id=poster[0], title=poster[1], subtitle=poster[2], content=poster[3], tags=poster[4], date=poster[5])
 
 
 def get_db():
+    connect = sqlite3.connect(app.config['DB_PATH'])
+    connect.row_factory = sqlite3.Row
     if not app.config['HAS_INIT_DB']:
         init_db()
-        return sqlite3.connect(app.config['DB_PATH'])
-    else:
-        return sqlite3.connect(app.config['DB_PATH'])
+    return connect
 
 
 def init_db():
     db = sqlite3.connect(app.config['DB_PATH'])
     cursor = db.cursor()
-    # cursor.execute()和cursor.executescript()的区别：
-    # 前者只能执行单一一句sql语句，后者可以执行多句sql语句。
     if not app.config['HAS_INIT_DB']:
         sql = app.open_resource("db.sql").read()
         cursor.executescript(sql.decode("utf-8"))
         db.commit()
-        app.config['HAS_INIT_DB'] = True
 
 
 def get_cursor():
@@ -67,4 +120,4 @@ def get_cursor():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
