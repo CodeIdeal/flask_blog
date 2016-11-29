@@ -3,17 +3,20 @@
     HomePage!
 {% endblock %}
 
+{% block toolbar %}
+    <a class='menu' style="font-size: medium;background: #86ffcb" href={{ url_for('edit') }}>新增文章</a>
+{% endblock %}
+
+
 {% block content %}
-    <b>hello world!</b><br/>
-    <a href={{ url_for('edit') }}>新增文章</a>
-    <ul class="posts">
+    <div class="posts">
         {% for post in posts %}
-            <li>
-                <a href={{ url_for('post',post_id=post.post_id) }}><h3>{{ post.title }}</h3><br/></a>
-                <i>日期：{{ post.date }}  tags：{{ post.tags }}</i>
-                <p>{{ post.subtitle }}</p>
-            </li>
+            <div class="post">
+                <a class="title" href={{ url_for('post',post_id=post.post_id) }}>{{ post.title }}</a><br/>
+                <i class="info">Date：{{ post.date }}  Tags：{{ post.tags }}</i>
+                <p class="subtitle">{{ post.subtitle }}</p>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 
 {% endblock %}
