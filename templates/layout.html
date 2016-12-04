@@ -2,28 +2,19 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %}</title>
-        <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
-        <script type="text/javascript" src="{{ url_for("static",filename="cool.js") }}"></script>
-        <script type="text/javascript" src="{{ url_for("static",filename="background.js") }}"></script>
+        <title>{% block title %}Cabana{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="base.css") }}" />
     </head>
 
-    <body>
+    <body style="text-align: center">
         <div class="toolbar">
-            <div class="logo"><b>hello world!</b></div>
+            <b>Cabana</b><br/>
             {% block toolbar %}{% endblock %}
         </div>
 
-        <div class="parent">
 
-            <div class="content">
+        <div class="content">
                 {% block content %}{% endblock %}
-            </div>
-
-            <div id="particles">
-                    <canvas class="pg-canvas"></canvas>
-            </div>
         </div>
 
 

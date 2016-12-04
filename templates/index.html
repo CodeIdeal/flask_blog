@@ -1,22 +1,20 @@
 {% extends "layout.html" %}
 {% block title %}
-    HomePage!
+    Cabana-Home
 {% endblock %}
 
 {% block toolbar %}
+    {{ super() }}
     <a class='menu' style="font-size: medium;background: #86ffcb" href={{ url_for('edit') }}>新增文章</a>
 {% endblock %}
 
 
 {% block content %}
-    <div class="posts">
-        {% for post in posts %}
-            <div class="post">
-                <a class="title" href={{ url_for('post',post_id=post.post_id) }}>{{ post.title }}</a><br/>
-                <i class="info">Date：{{ post.date }}  Tags：{{ post.tags }}</i>
-                <p class="subtitle">{{ post.subtitle }}</p>
-            </div>
-        {% endfor %}
-    </div>
-
+    {% for post in posts %}
+        <div class="post">
+            <a class="post-title" href={{ url_for('post',post_id=post.post_id) }}>{{ post.title }}</a><br/>
+            <i class="post-info">Date：{{ post.date }}  Tags：{{ post.tags }}</i>
+            <p class="post-subtitle">{{ post.subtitle }}</p>
+        </div>
+    {% endfor %}
 {% endblock %}
