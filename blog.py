@@ -9,7 +9,7 @@ app.config['DB_PATH'] = "/home/kang/PycharmProjects/flask_blog/blog.db"
 app.config['HAS_INIT_DB'] = True
 app.config['USER_NAME'] = 'kaka'
 app.config['USER_PASSWD'] = '2333'
-app.config['UPLOAD_FOLDER'] = "/home/kang/PycharmProjects/flask_blog/static/up_down_loads"
+app.config['UPLOAD_FOLDER'] = "/home/kang/PycharmProjects/flask_blog/static/up_down_load"
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 

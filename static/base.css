@@ -14,6 +14,10 @@ body{
     margin:0 auto ;
 }
 
+.menu{
+    font-size: medium;
+}
+
 .content {
     position: absolute;
     width: auto;
@@ -30,17 +34,6 @@ body{
     margin-left: auto;
     margin-right: auto;
     bottom: 0;
-}
-
-.logo{
-    position: relative;
-    width: auto;
-    height: auto;
-    margin-left: 30px;
-    margin-right: auto;
-    -webkit-animation:hinge 2s;
-    -o-animation:hinge 2s;
-    animation:hinge 2s;
 }
 
 .content{
