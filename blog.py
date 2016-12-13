@@ -1,6 +1,7 @@
 import os
 import sqlite3
 
+import mistune
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 
@@ -54,6 +55,8 @@ def files():
 @app.route('/post/<int:post_id>')
 def post(post_id):
     poster = get_post(post_id)
+    poster['content'] = mistune.markdown(poster['content'])
+    print(poster['content'])
     return render_template("post.html", post=poster)
 
 

@@ -20,7 +20,7 @@ body{
 
 .content {
     position: absolute;
-    width: auto;
+    width: 99%;
     height: auto;
     text-align: center;
     margin-left: auto;
@@ -36,10 +36,14 @@ body{
     bottom: 0;
 }
 
-.content{
-    width: 100%;
-    height:auto;
+.post-content{
+    width: 80%;
+    text-align: start;
+    margin: 0 auto;
+    padding: 1em;
+    border-radius: 6px;
     position: relative;
+    background-color: rgba(242, 236, 215, 0.5);
 }
 
 .post {

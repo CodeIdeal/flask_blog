@@ -1,6 +1,9 @@
 import os
 from blog import allowed_file
+import mistune
 
 
-a = "12312.txt"
-print(allowed_file(a))
+md = open("route.md")
+content = md.read()
+md_htlm = mistune.markdown(content)
+print(md_htlm)

@@ -7,7 +7,9 @@
     <h3>{{ post.title }}</h3><br/><br/>
     <b>日期：{{ post.date }}  tags：{{ post.tags }}</b><br/>
     <i>{{ post.subtitle }}</i><br/>
-    <p>{{ post.content }}</p>
+    {% autoescape false %}
+    <div class="post-content">{{ post.content }}</div>
+    {% endautoescape %}
 
     <form action="{{ url_for('delete',post_id=post.post_id) }}" method=post class="delete">
         <dl>
