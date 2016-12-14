@@ -32,7 +32,6 @@
 
      * 其规则为`<converter:variable_name>`
 
-
      * converter有三种类型分别为：int、float、path(和默认的相似，但它能接受斜线)
 
        ```python

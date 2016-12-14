@@ -2,6 +2,9 @@ import os
 import sqlite3
 
 import mistune
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters import html
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 
@@ -12,6 +15,20 @@ app.config['USER_NAME'] = 'kaka'
 app.config['USER_PASSWD'] = '2333'
 app.config['UPLOAD_FOLDER'] = "/home/kang/PycharmProjects/flask_blog/static/up_down_load"
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
+
+class HighlightRenderer(mistune.Renderer):
+    def block_code(self, code, lang):
+        if not lang:
+            return '\n<pre><code>%s</code></pre>\n' % \
+                   mistune.escape(code)
+        lexer = get_lexer_by_name(lang, stripall=True)
+        formatter = html.HtmlFormatter()
+        return highlight(code, lexer, formatter)
+
+
+renderer = HighlightRenderer()
+markdown = mistune.Markdown(renderer=renderer)
 
 
 @app.route('/')
@@ -55,14 +72,14 @@ def files():
 @app.route('/post/<int:post_id>')
 def post(post_id):
     poster = get_post(post_id)
-    poster['content'] = mistune.markdown(poster['content'])
-    print(poster['content'])
+    poster['content'] = markdown(poster['content'])
     return render_template("post.html", post=poster)
 
 
 @app.route('/add', methods=['POST'])
 def add():
-    add_post(request.form['title'], request.form['subtitle'], request.form['content'], request.form['tags'], sqlite3.Date.today())
+    add_post(request.form['title'], request.form['subtitle'], request.form['content'], request.form['tags'],
+             sqlite3.Date.today())
     return redirect(url_for('index'))
 
 
@@ -79,7 +96,7 @@ def delete(post_id):
 
 def add_post(title, subtitle, content, tags, post_date):
     db = get_db()
-    db.execute("insert into posts (title,subtitle,content,tags,post_date) values(?,?,?,?,?)"
+    db.execute("INSERT INTO posts (title,subtitle,content,tags,post_date) VALUES(?,?,?,?,?)"
                , [title, subtitle, content, tags, post_date])
     db.commit()
 
@@ -91,14 +108,16 @@ def delete_post(post_id):
 
 
 def get_posts():
-    cursor = get_cursor().execute("select post_id, title, subtitle, tags, post_date from posts ORDER BY post_id DESC ")
-    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4])for row in cursor.fetchall()]
+    cursor = get_cursor().execute("SELECT post_id, title, subtitle, tags, post_date FROM posts ORDER BY post_id DESC ")
+    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4]) for row in cursor.fetchall()]
 
 
 def get_post(pots_id):
-    cursor = get_cursor().execute("select post_id, title, subtitle, content, tags, post_date from posts WHERE post_id=?", (pots_id,))
+    cursor = get_cursor().execute(
+        "SELECT post_id, title, subtitle, content, tags, post_date FROM posts WHERE post_id=?", (pots_id,))
     poster = cursor.fetchone()
-    return dict(post_id=poster[0], title=poster[1], subtitle=poster[2], content=poster[3], tags=poster[4], date=poster[5])
+    return dict(post_id=poster[0], title=poster[1], subtitle=poster[2], content=poster[3], tags=poster[4],
+                date=poster[5])
 
 
 def get_db():
