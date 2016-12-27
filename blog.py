@@ -9,11 +9,11 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['DB_PATH'] = "/home/kang/PycharmProjects/flask_blog/blog.db"
+app.config['DB_PATH'] = "./blog.db"
 app.config['HAS_INIT_DB'] = True
 app.config['USER_NAME'] = 'kaka'
 app.config['USER_PASSWD'] = '2333'
-app.config['UPLOAD_FOLDER'] = "/home/kang/PycharmProjects/flask_blog/static/up_down_load"
+app.config['UPLOAD_FOLDER'] = "./static/up_down_load"
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
