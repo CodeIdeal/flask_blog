@@ -33,7 +33,7 @@ markdown = mistune.Markdown(renderer=renderer)
 
 @app.route('/')
 def index():
-    posts = get_posts()
+    posts = get_posts_by_index(0)
     return render_template("index.html", posts=posts)
 
 
@@ -56,6 +56,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
+# ============route start============
 @app.route('/error')
 def error():
     return render_template("error.html")
@@ -94,6 +95,10 @@ def delete(post_id):
     return redirect(url_for('index'))
 
 
+# ============route end============
+
+
+# ============Post function start============
 def add_post(title, subtitle, content, tags, post_date):
     db = get_db()
     db.execute("INSERT INTO posts (title,subtitle,content,tags,post_date) VALUES(?,?,?,?,?)"
@@ -107,17 +112,41 @@ def delete_post(post_id):
     db.commit()
 
 
-def get_posts():
-    cursor = get_cursor().execute("SELECT post_id, title, subtitle, tags, post_date FROM posts ORDER BY post_id DESC ")
-    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4]) for row in cursor.fetchall()]
-
-
 def get_post(pots_id):
     cursor = get_cursor().execute(
         "SELECT post_id, title, subtitle, content, tags, post_date FROM posts WHERE post_id=?", (pots_id,))
     poster = cursor.fetchone()
     return dict(post_id=poster[0], title=poster[1], subtitle=poster[2], content=poster[3], tags=poster[4],
                 date=poster[5])
+
+
+def get_all_posts():
+    cursor = get_cursor().execute(
+        "SELECT post_id, title, subtitle, tags, post_date FROM posts ORDER BY post_id DESC ")
+    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4]) for row in cursor.fetchall()]
+
+
+def get_posts_by_index(page_index):
+    cursor = get_cursor().execute(
+        "SELECT post_id, title, subtitle, tags, post_date FROM posts ORDER BY post_id DESC LIMIT 10 OFFSET ?",
+        (page_index*10,))
+    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4]) for row in cursor.fetchall()]
+
+
+def get_posts_num():
+    cursor = get_cursor().execute("SELECT COUNT(*) FROM posts")
+    return cursor.fetchone()[0]
+# ============DB function end============
+
+
+# ============DB function start============
+def init_db():
+    db = sqlite3.connect(app.config['DB_PATH'])
+    cursor = db.cursor()
+    if not app.config['HAS_INIT_DB']:
+        sql = app.open_resource("db.sql").read()
+        cursor.executescript(sql.decode("utf-8"))
+        db.commit()
 
 
 def get_db():
@@ -128,18 +157,11 @@ def get_db():
     return connect
 
 
-def init_db():
-    db = sqlite3.connect(app.config['DB_PATH'])
-    cursor = db.cursor()
-    if not app.config['HAS_INIT_DB']:
-        sql = app.open_resource("db.sql").read()
-        cursor.executescript(sql.decode("utf-8"))
-        db.commit()
-
-
 def get_cursor():
     return get_db().cursor()
 
+
+# ============DB function end============
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
