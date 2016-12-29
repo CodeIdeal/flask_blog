@@ -14,7 +14,7 @@ app.config['HAS_INIT_DB'] = True
 app.config['USER_NAME'] = 'kaka'
 app.config['USER_PASSWD'] = '2333'
 app.config['UPLOAD_FOLDER'] = "./static/up_down_load"
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'apk', 'zip', '7z', 'rar'}
 
 
 class HighlightRenderer(mistune.Renderer):
@@ -31,10 +31,22 @@ renderer = HighlightRenderer()
 markdown = mistune.Markdown(renderer=renderer)
 
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+# ============route start============
 @app.route('/')
 def index():
     posts = get_posts_by_index(0)
-    return render_template("index.html", posts=posts)
+    return render_template("index.html", posts=posts, cur_page=0, pages=get_posts_num())
+
+
+@app.route('/<int:page_index>')  # page_index 是以1开始计数的
+def page(page_index):
+    posts = get_posts_by_index(page_index)
+    num = get_posts_num()
+    return render_template("index.html", posts=posts, cur_page=page_index, pages=(int(num / 10) + 1))
 
 
 @app.route('/download/<string:src>')
@@ -52,11 +64,6 @@ def upload():
     return redirect(url_for('error'))
 
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
-# ============route start============
 @app.route('/error')
 def error():
     return render_template("error.html")
@@ -129,7 +136,7 @@ def get_all_posts():
 def get_posts_by_index(page_index):
     cursor = get_cursor().execute(
         "SELECT post_id, title, subtitle, tags, post_date FROM posts ORDER BY post_id DESC LIMIT 10 OFFSET ?",
-        (page_index*10,))
+        ((page_index-1)*10,))
     return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4]) for row in cursor.fetchall()]
 
 
