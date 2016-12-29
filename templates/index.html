@@ -22,8 +22,8 @@
     {% if pages > 5 %}
         {% if cur_page <= 3 %}
             {% for i in range(4) %}
-                {% if cur_page == i %}
-                    {{ i }}
+                {% if cur_page == (i + 1) %}
+                    {{ i + 1 }}
                 {% else %}
                     <a href={{ url_for('page', page_index=i + 1) }}>{{ i + 1 }}</a>
                 {% endif %}
