@@ -3,6 +3,12 @@
     {{ post.title }}
 {% endblock %}
 
+{% block menu %}
+    <li class="mdui-menu-item">
+        <a href={{ url_for('delete',post_id=post.post_id) }}>Delete</a>
+    </li>
+{% endblock %}
+
 {% block content %}
     <h3>{{ post.title }}</h3><br/><br/>
     <b>日期：{{ post.date }}  tags：{{ post.tags }}</b><br/>
@@ -10,10 +16,4 @@
     {% autoescape false %}
     <div class="post-content">{{ post.content }}</div>
     {% endautoescape %}
-
-    <form action="{{ url_for('delete',post_id=post.post_id) }}" method=post class="delete">
-        <dl>
-            <dd><input type="submit" value="删除该文章"></dd>
-        </dl>
-    </form>
 {% endblock %}

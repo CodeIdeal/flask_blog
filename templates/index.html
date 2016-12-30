@@ -3,13 +3,6 @@
     Cabana-Home
 {% endblock %}
 
-{% block toolbar %}
-    {{ super() }}
-    <a class="menu" href={{ url_for('edit') }}>新增文章</a>
-    <a class="menu" href={{ url_for('files') }}>文件管理</a>
-{% endblock %}
-
-
 {% block content %}
     {% for post in posts %}
         <div class="post">

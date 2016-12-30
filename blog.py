@@ -39,7 +39,7 @@ def allowed_file(filename):
 @app.route('/')
 def index():
     posts = get_posts_by_index(0)
-    return render_template("index.html", posts=posts, cur_page=0, pages=get_posts_num())
+    return render_template("index.html", posts=posts, cur_page=0, pages=(int(get_posts_num() / 10) + 1))
 
 
 @app.route('/<int:page_index>')  # page_index 是以1开始计数的
@@ -96,7 +96,7 @@ def edit():
     return render_template("edit.html")
 
 
-@app.route('/delete/<int:post_id>', methods=['POST'])
+@app.route('/delete/<int:post_id>', methods=['GET'])
 def delete(post_id):
     delete_post(post_id)
     return redirect(url_for('index'))
