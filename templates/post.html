@@ -3,6 +3,10 @@
     {{ post.title }}
 {% endblock %}
 
+{% block small_title %}
+    {{ post.title }}
+{% endblock %}
+
 {% block menu %}
     <li class="mdui-menu-item">
         <a href={{ url_for('delete',post_id=post.post_id) }}>Delete</a>
@@ -10,9 +14,13 @@
 {% endblock %}
 
 {% block content %}
-    <h3>{{ post.title }}</h3><br/><br/>
-    <b>日期：{{ post.date }}  tags：{{ post.tags }}</b><br/>
-    <i>{{ post.subtitle }}</i><br/>
+    <div class="mdui-text-center"><h2>{{ post.title }}</h2></div>
+    <div class="mdui-valign"><i class="mdui-icon material-icons mdui-text-color-grey">&#xe916;</i>{{ post.date }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="mdui-icon material-icons mdui-text-color-grey">&#xe54e;</i>{{ post.tags }}<br/></div>
+    <div class="mdui-typo">
+      <blockquote>
+        {{ post.subtitle }}
+      </blockquote>
+    </div>
     {% autoescape false %}
     <div class="post-content">{{ post.content }}</div>
     {% endautoescape %}

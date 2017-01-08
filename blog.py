@@ -39,6 +39,8 @@ def allowed_file(filename):
 @app.route('/')
 def index():
     posts = get_posts_by_index(0)
+    for post in posts:
+        post['content'] = markdown(post['content'])
     return render_template("index.html", posts=posts, cur_page=0, pages=(int(get_posts_num() / 10) + 1))
 
 
@@ -59,7 +61,7 @@ def upload():
     file = request.files['file']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join((app.config['UPLOAD_FOLDER']), filename))
+        file.save(os.path.join((app.confSubtitleig['UPLOAD_FOLDER']), filename))
         return redirect(url_for('files'))
     return redirect(url_for('error'))
 
@@ -135,9 +137,9 @@ def get_all_posts():
 
 def get_posts_by_index(page_index):
     cursor = get_cursor().execute(
-        "SELECT post_id, title, subtitle, tags, post_date FROM posts ORDER BY post_id DESC LIMIT 10 OFFSET ?",
+        "SELECT post_id, title, subtitle, tags, post_date, content FROM posts ORDER BY post_id DESC LIMIT 10 OFFSET ?",
         ((page_index-1)*10,))
-    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4]) for row in cursor.fetchall()]
+    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4], content=row[5]) for row in cursor.fetchall()]
 
 
 def get_posts_num():

@@ -3,15 +3,19 @@
     Add new post!
 {% endblock %}
 
+{% block small_title %}
+    New Post
+{% endblock %}
+
 {% block content %}
     <form action="{{ url_for('add') }}" method=post class="add">
         <dl>
             <dt>title:</dt>
             <dd><input type=text size=30 name=title></dd>
-            <dt>subtitle:</dt>
-            <dd><input type=text size=30 name=subtitle></dd>
             <dt>tags:</dt>
             <dd><input type=text size=30 name=tags></dd>
+            <dt>summary:</dt>
+            <dd><textarea type=text size=30 name=subtitle></textarea></dd>
             <dt>content:</dt>
             <dd><textarea type=text size=30 name=content></textarea></dd>
             <dd><input type="submit" value="Submit"></dd>

@@ -3,15 +3,27 @@
     Cabana-Home
 {% endblock %}
 
+{% block small_title %}
+    Home
+{% endblock %}
+
 {% block content %}
     {% for post in posts %}
         <div class="post">
-            <a class="post-title" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a><br/>
-            <i class="post-info">Date：{{ post.date }}  Tags：{{ post.tags }}</i>
-            <p class="post-subtitle">{{ post.subtitle }}</p>
+{#            <a class="post-title" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a><br/>#}
+{#            <i class="post-info">Date：{{ post.date }}  Tags：{{ post.tags }}</i>#}
+{#            <p class="post-subtitle">{{ post.subtitle }}</p>#}
+                <div class="mdui-card">
+
+            <!-- 卡片的标题和副标题 -->
+            <div class="mdui-card-primary">
+              <div class="mdui-card-primary-title"><a style="text-decoration: none" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></div>
+              <div class="mdui-card-primary-subtitle">{{ post.subtitle }}</div>
+            </div>
+        </div>
         </div>
     {% endfor %}
-
+    <div class="mdui-text-center">
     {% if pages > 5 %}
         {% if cur_page <= 3 %}
             {% for i in range(4) %}
@@ -49,4 +61,5 @@
             <a href={{ url_for('page', page_index=i + 1) }}>{{ i + 1 }}</a>
         {% endfor %}
     {% endif %}
+    </div>
 {% endblock %}

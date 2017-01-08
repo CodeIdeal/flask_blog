@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Cabana{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/mdui.css") }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/pygments.css") }}"/>
@@ -13,12 +13,11 @@
 
     <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide">
         <div class="mdui-toolbar mdui-color-indigo">
-          <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">&#xe5d2;</i></a>
-          <a href={{ url_for('index') }} class="mdui-typo-headline">Cabana</a>
-          <a href="javascript:;" class="mdui-typo-title">Title</a>
+          <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-xs-down" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">&#xe5d2;</i></a>
+          <a  class="mdui-typo-headline mdui-hidden-xs-down" href={{ url_for('index') }}>Cabana</a>
+          <a href="javascript:;" class="mdui-typo-title">{% block small_title %}{% endblock %}</a>
           <div class="mdui-toolbar-spacer"></div>
-          <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">&#xe8b6;</i></a>
-          <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">&#xe5d5;</i></a>
+          <a href="{{ url_for('index') }}" class="mdui-btn mdui-btn-icon mdui-hidden-sm-up"><i class="mdui-icon material-icons">&#xe88a;</i></a>
           <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-menu="{target: '#example-attr'}"><i class="mdui-icon material-icons">&#xe5d4;</i></a>
           <ul class="mdui-menu" id="example-attr">
               <li class="mdui-menu-item">
@@ -42,12 +41,10 @@
     </div>
 
     <div class="mdui-container-fluid">
-        <div class="content">
-                {% block content %}{% endblock %}
-        </div>
+        <div>{% block content %}{% endblock %}</div>
         <div class="footer">
             {% block footer %}
-                Copyright 2016 by <a href="https://github.com/kangyang1024">kang</a>.Powered by Flask
+                <footer>Copyright 2016 by <a href="https://github.com/kangyang1024">kang</a>.Powered by <a href="http://flask.pocoo.org/">Flask</a></footer>
             {% endblock %}
         </div>
     </div>

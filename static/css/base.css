@@ -1,12 +1,3 @@
-.content {
-    position: relative;
-    width: 99%;
-    height: auto;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .footer {
     position: relative;
     width: 99%;
@@ -16,20 +7,29 @@
 }
 
 .pre{
-    border-radius: 5px;
-    box-shadow: #1d3e81;
     background: rgba(242, 236, 215, 0.5);
 }
 
-.post-content{
-    width: 99%;
-    text-align: start;
+.post-content {
+    width: 80%;
+    text-align: left;
     margin: 0 auto;
     padding: 1em;
-    border-radius: 6px;
     position: relative;
-    background-color: rgba(60, 63, 65, 0.5);
-    box-shadow: rgb(51,51,51) 2px 2px 5px;
+    background-color: rgba(220, 220, 220, 0.6);
+    /*box-shadow: rgb(51, 51, 51) 2px 2px 5px;*/
+}
+
+@media Screen and (max-width: 560px) {
+    .post-content{
+        width: 95%;
+        text-align: left;
+        margin: 0 auto;
+        padding: 0.5em;
+        position: relative;
+        background-color: rgba(220, 220, 220, 0.6);
+        /*box-shadow: rgb(51,51,51) 2px 2px 5px;*/
+    }
 }
 
 .post {

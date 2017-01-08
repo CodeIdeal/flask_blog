@@ -3,6 +3,10 @@
     HomePage!
 {% endblock %}
 
+{% block small_title %}
+    FileManager
+{% endblock %}
+
 {% block content %}
     {% for file in files %}
         <a href="{{ url_for('download',src=file) }}">{{ file }}</a><br/>
