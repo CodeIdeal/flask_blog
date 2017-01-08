@@ -17,8 +17,9 @@
 
             <!-- 卡片的标题和副标题 -->
             <div class="mdui-card-primary">
-              <div class="mdui-card-primary-title"><a style="text-decoration: none" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></div>
-              <div class="mdui-card-primary-subtitle">{{ post.subtitle }}</div>
+                <div class="mdui-card-primary-title"><a style="text-decoration: none" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></div>
+                <div class="mdui-valign"><i class="mdui-icon material-icons mdui-text-color-grey">&#xe916;</i>{{ post.date }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="mdui-icon material-icons mdui-text-color-grey">&#xe54e;</i>{{ post.tags }}<br/></div>
+                <div class="mdui-card-primary-subtitle">{{ post.subtitle }}</div>
             </div>
         </div>
         </div>
