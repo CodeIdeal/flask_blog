@@ -13,54 +13,61 @@
 {#            <a class="post-title" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a><br/>#}
 {#            <i class="post-info">Date：{{ post.date }}  Tags：{{ post.tags }}</i>#}
 {#            <p class="post-subtitle">{{ post.subtitle }}</p>#}
-                <div class="mdui-card">
+            <div class="mdui-card">
 
             <!-- 卡片的标题和副标题 -->
-            <div class="mdui-card-primary">
-                <div class="mdui-card-primary-title"><a style="text-decoration: none" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></div>
-                <div class="mdui-valign"><i class="mdui-icon material-icons mdui-text-color-grey">&#xe916;</i>{{ post.date }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="mdui-icon material-icons mdui-text-color-grey">&#xe54e;</i>{{ post.tags }}<br/></div>
-                <div class="mdui-card-primary-subtitle">{{ post.subtitle }}</div>
+                <div class="mdui-card-primary">
+                    <div class="mdui-card-primary-title">
+                        <a style="text-decoration: none" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a>
+                    </div>
+                    <div class="mdui-valign">
+                        <i class="mdui-icon material-icons mdui-text-color-grey">&#xe916;</i>{{ post.date }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="mdui-icon material-icons mdui-text-color-grey">&#xe54e;</i>{{ post.tags }}<br/>
+                    </div>
+                    <div class="mdui-card-primary-subtitle">
+                        {{ post.subtitle }}
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
     {% endfor %}
+
     <div class="mdui-text-center" style="margin-top: 1.5em">
-    {% if pages > 5 %}
-        {% if cur_page <= 3 %}
-            {% for i in range(4) %}
-                {% if cur_page == (i + 1) %}
-                    {{ i + 1 }}
-                {% else %}
-                    <a href={{ url_for('page', page_index=i + 1) }}>{{ i + 1 }}</a>
-                {% endif %}
+        {% if pages > 5 %}
+            {% if cur_page <= 3 %}
+                {% for i in range(4) %}
+                    {% if cur_page == (i + 1) %}
+                        {{ i + 1 }}
+                    {% else %}
+                        <a href={{ url_for('page', page_index=i + 1) }}>{{ i + 1 }}</a>
+                    {% endif %}
 
-            {% endfor %}
-            ...
-            <a href={{ url_for('page', page_index=pages) }}>{{ pages }}</a>
-        {% elif cur_page >3 and cur_page <= pages-3 %}
-            <a href={{ url_for('page', page_index=1) }}>{{ 1 }}</a>
-            ...
-            <a href={{ url_for('page', page_index=cur_page - 1) }}>{{ cur_page - 1 }}</a>
-            {{ cur_page }}
-            <a href={{ url_for('page', page_index=cur_page + 1) }}>{{ cur_page + 1 }}</a>
-            ...
-            <a href={{ url_for('page', page_index=pages) }}>{{ pages }}</a>
+                {% endfor %}
+                ...
+                <a href={{ url_for('page', page_index=pages) }}>{{ pages }}</a>
+            {% elif cur_page >3 and cur_page <= pages-3 %}
+                <a href={{ url_for('page', page_index=1) }}>{{ 1 }}</a>
+                ...
+                <a href={{ url_for('page', page_index=cur_page - 1) }}>{{ cur_page - 1 }}</a>
+                {{ cur_page }}
+                <a href={{ url_for('page', page_index=cur_page + 1) }}>{{ cur_page + 1 }}</a>
+                ...
+                <a href={{ url_for('page', page_index=pages) }}>{{ pages }}</a>
+            {% else %}
+                <a href={{ url_for('page', page_index=1) }}>{{ 1 }}</a>
+                ...
+                {% for i in range(4) %}
+                    {% if cur_page == pages - (3 - i) %}
+                        {{ pages - (3 - i) }}
+                    {% else %}
+                        <a href={{ url_for('page', page_index=pages - (3 - i)) }}>{{ pages - (3 - i)}}</a>
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
         {% else %}
-            <a href={{ url_for('page', page_index=1) }}>{{ 1 }}</a>
-            ...
-            {% for i in range(4) %}
-                {% if cur_page == pages - (3 - i) %}
-                    {{ pages - (3 - i) }}
-                {% else %}
-                    <a href={{ url_for('page', page_index=pages - (3 - i)) }}>{{ pages - (3 - i)}}</a>
-                {% endif %}
-
+            {% for i in range(pages) %}
+                <a href={{ url_for('page', page_index=i + 1) }}>{{ i + 1 }}</a>
             {% endfor %}
         {% endif %}
-    {% else %}
-        {% for i in range(pages) %}
-            <a href={{ url_for('page', page_index=i + 1) }}>{{ i + 1 }}</a>
-        {% endfor %}
-    {% endif %}
     </div>
 {% endblock %}
