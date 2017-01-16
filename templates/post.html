@@ -11,6 +11,9 @@
     <li class="mdui-menu-item">
         <a href={{ url_for('delete',post_id=post.post_id) }}>Delete</a>
     </li>
+    <li class="mdui-menu-item">
+        <a href={{ url_for('edit_modify',post_id=post.post_id) }}>Modify</a>
+    </li>
 {% endblock %}
 
 {% block content %}

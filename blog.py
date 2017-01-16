@@ -39,8 +39,6 @@ def allowed_file(filename):
 @app.route('/')
 def index():
     posts = get_posts_by_index(0)
-    for post in posts:
-        post['content'] = markdown(post['content'])
     return render_template("index.html", posts=posts, cur_page=0, pages=(int(get_posts_num() / 10) + 1))
 
 
@@ -93,9 +91,22 @@ def add():
     return redirect(url_for('index'))
 
 
-@app.route('/edit')
+@app.route('/edit/new')
 def edit():
     return render_template("edit.html")
+
+
+@app.route('/edit/<int:post_id>')
+def edit_modify(post_id):
+    poster = get_post(post_id)
+    return render_template('edit.html', post=poster)
+
+
+@app.route('/modify', methods=['POST'])
+def modify():
+    update_post(request.form['post_id'], request.form['title'], request.form['subtitle'], request.form['content'],
+                request.form['tags'], request.form['post_date'])
+    return redirect(url_for('post', post_id=request.form['post_id']))
 
 
 @app.route('/delete/<int:post_id>', methods=['GET'])
@@ -118,6 +129,13 @@ def add_post(title, subtitle, content, tags, post_date):
 def delete_post(post_id):
     db = get_db()
     db.execute("DELETE FROM posts WHERE post_id = ?", (post_id,))
+    db.commit()
+
+
+def update_post(post_id, title, subtitle, content, tags, post_date):
+    db = get_db()
+    db.execute("UPDATE posts SET title=?,subtitle=?,content=?,tags=?,post_date=? WHERE post_id=?",
+               (title, subtitle, content, tags, post_date, post_id))
     db.commit()
 
 
