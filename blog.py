@@ -59,7 +59,7 @@ def upload():
     file = request.files['file']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join((app.confSubtitleig['UPLOAD_FOLDER']), filename))
+        file.save(os.path.join((app.config['UPLOAD_FOLDER']), filename))
         return redirect(url_for('files'))
     return redirect(url_for('error'))
 
@@ -109,9 +109,9 @@ def modify():
     return redirect(url_for('post', post_id=request.form['post_id']))
 
 
-@app.route('/delete/<int:post_id>', methods=['GET'])
-def delete(post_id):
-    delete_post(post_id)
+@app.route('/delete', methods=['POST'])
+def delete():
+    delete_post(request.form['post_id'])
     return redirect(url_for('index'))
 
 
