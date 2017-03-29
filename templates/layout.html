@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3F51B5">
     <title>{% block title %}Cabana{% endblock %}</title>
     <Link Rel="shortcut icon" href={{ url_for("static", filename="./icons/favicon.ico") }}>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/mdui.min.css") }}"/>
@@ -13,7 +14,7 @@
 
 <body class="mdui-appbar-with-toolbar mdui-bottom-nav-fixed">
 
-    <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide">
+    <div id="toolbar" class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide">
         <div class="mdui-toolbar mdui-color-indigo">
           <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-xs-down" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">&#xe5d2;</i></a>
           <a  class="mdui-typo-headline mdui-hidden-xs-down" href={{ url_for('index') }}>Cabana</a>
