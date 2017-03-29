@@ -10,7 +10,6 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['DB_PATH'] = "./blog.db"
-app.config['HAS_INIT_DB'] = True
 app.config['USER_NAME'] = 'kaka'
 app.config['USER_PASSWD'] = '2333'
 app.config['UPLOAD_FOLDER'] = "./static/up_down_load"
@@ -168,19 +167,20 @@ def get_posts_num():
 
 # ============DB function start============
 def init_db():
+    db_file = open(app.config['DB_PATH'], 'w')
+    db_file.close()
     db = sqlite3.connect(app.config['DB_PATH'])
     cursor = db.cursor()
-    if not app.config['HAS_INIT_DB']:
-        sql = app.open_resource("db.sql").read()
-        cursor.executescript(sql.decode("utf-8"))
-        db.commit()
+    sql = app.open_resource("db.sql").read()
+    cursor.executescript(sql.decode("utf-8"))
+    db.commit()
 
 
 def get_db():
+    if not os.path.isfile(app.config['DB_PATH']):
+        init_db()
     connect = sqlite3.connect(app.config['DB_PATH'])
     connect.row_factory = sqlite3.Row
-    if not app.config['HAS_INIT_DB']:
-        init_db()
     return connect
 
 
