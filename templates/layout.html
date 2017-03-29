@@ -6,9 +6,9 @@
     <meta name="theme-color" content="#3F51B5">
     <title>{% block title %}Cabana{% endblock %}</title>
     <Link Rel="shortcut icon" href={{ url_for("static", filename="./icons/favicon.ico") }}>
-    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/mdui.min.css") }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./layui/css/layui.css") }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/mine.css") }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/pygments.css") }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/base.css") }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/markdown.css") }}"/>
 </head>
 
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <script src={{ url_for("static",filename="./js/mdui.min.js") }}></script>
+    <script src={{ url_for("static",filename="./layui/layui.js") }}></script>
     <script src={{ url_for("static",filename="./js/own.js") }}></script>
 </body>
 

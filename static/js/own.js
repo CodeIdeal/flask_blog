@@ -18,22 +18,3 @@ function CreateXMLHttpRequest() {
         xmlhttp = new XMLHttpRequest();
     }
 }
-
-function initToolbar() {
-    var winWidth = 0;
-    var toolbar = document.getElementById('toolbar');
-
-    if (window.innerWidth) {
-        winWidth = window.innerWidth;
-    } else if ((document.body) && (document.body.clientWidth)) {
-        winWidth = document.body.clientWidth;
-    }
-
-    if(winWidth < 560){
-        toolbar.className = 'mdui-appbar mdui-appbar-fixed';
-    }else {
-        toolbar.className = 'mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide';
-    }
-}
-
-initToolbar();
