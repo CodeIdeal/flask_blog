@@ -1,10 +1,11 @@
+from flask import Flask, send_from_directory, redirect
 
-from pygments import highlight
-from pygments.formatters.html import HtmlFormatter
-from pygments.lexers import get_lexer_by_name
-from pygments.formatters import html
-import mistune
-from blog import get_posts_num, get_posts_by_index
+app = Flask(__name__)
 
 
-print(get_posts_num())
+@app.route('/')
+def download():
+    return redirect("vmanager://web?url=http://www.baidu.com")
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80, debug=True)
