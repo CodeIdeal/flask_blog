@@ -1,1 +1,1 @@
-create table posts (post_id integer primary key autoincrement,title string not null,subtitle String not null,content string not null,tags String,post_date date);
+create table posts (post_id integer primary key autoincrement,title varchar(50) not null,subtitle varchar(255) not null,content text not null,tags varchar(20),post_date date);

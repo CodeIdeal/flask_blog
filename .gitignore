@@ -1,1 +1,8 @@
 /.idea/
+/static/css/mine.scss
+/static/css/mine.css.map
+/static/css/.sass-cache/
+blog.db
+__pycache__/
+
+

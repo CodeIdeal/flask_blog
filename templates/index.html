@@ -8,28 +8,18 @@
 {% endblock %}
 
 {% block content %}
+    <ul>
     {% for post in posts %}
-        <div class="post">
-{#            <a class="post-title" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a><br/>#}
-{#            <i class="post-info">Date：{{ post.date }}  Tags：{{ post.tags }}</i>#}
-{#            <p class="post-subtitle">{{ post.subtitle }}</p>#}
-            <div class="mdui-card">
-
-            <!-- 卡片的标题和副标题 -->
-                <div class="mdui-card-primary">
-                    <div class="mdui-card-primary-title">
-                        <a style="text-decoration: none" href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a>
-                    </div>
-                    <div class="mdui-valign">
-                        <i class="mdui-icon material-icons mdui-text-color-grey">&#xe916;</i>{{ post.date }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="mdui-icon material-icons mdui-text-color-grey">&#xe54e;</i>{{ post.tags }}<br/>
-                    </div>
-                    <div class="mdui-card-primary-subtitle">
-                        {{ post.subtitle }}
-                    </div>
-                </div>
-            </div>
-        </div>
+        <li class="post">
+            <p class="post_title"><a href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></p>
+            <p class="post_info"><span><i style="font-size: .9em"; class="layui-icon">&#xe60e;</i> {{ post.date }}</span> <span><i style="font-size: .9em"; class="layui-icon">&#xe627;</i> {{ post.tags }}</span></p>
+            <p class="subtitle">{{ post.subtitle }}</p>
+        </li>
+        <hr>
     {% endfor %}
+    </ul>
+
+    <div id="page_number"/>
 
     <div class="mdui-text-center" style="margin-top: 1.5em">
         {% if pages > 5 %}

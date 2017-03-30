@@ -177,7 +177,9 @@ def init_db():
 
 
 def get_db():
-    if not os.path.isfile(app.config['DB_PATH']):
+    dir = app.config['DB_PATH']
+    isfile = os.path.isfile(dir)
+    if not isfile:
         init_db()
     connect = sqlite3.connect(app.config['DB_PATH'])
     connect.row_factory = sqlite3.Row
