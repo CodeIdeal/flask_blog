@@ -37,7 +37,7 @@ body {
   overflow-y: auto; // set expected overflow
 
   // styling
-  padding: 50px 15%;
+  padding: 50px 15% 0 15%;
 
   /*wrote by my self*/
   width: 100%;
@@ -209,6 +209,16 @@ li {
   display: block;
 }
 
+main {
+  /*wrote by myself*/
+  z-index: 100; // fix the menu_items overlap on content
+  position: relative;
+}
+
+a {
+  text-decoration: none;
+}
+
 .logo {
   font-weight: 100;
   font-size: xx-large;
@@ -233,10 +243,11 @@ li {
   font-size: 16px;
 }
 
-main {
-  /*wrote by myself*/
-  z-index: 100; // fix the menu_items overlap on content
-  position: relative;
+#footer {
+  font-size: 12px;
+  text-align: center;
+  padding: 10px;
+  margin-top: 80px;
 }
 
 //Response layout
