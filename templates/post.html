@@ -8,23 +8,19 @@
 {% endblock %}
 
 {% block menu %}
-    <li class="mdui-menu-item">
-        <a onclick="own_delete_post({{ post.post_id }})" href={{ url_for('index') }}>Delete</a>
-    </li>
-    <li class="mdui-menu-item">
-        <a href={{ url_for('edit_modify',post_id=post.post_id) }}>Modify</a>
-    </li>
+    <li><a onclick="own_delete_post({{ post.post_id }})" href={{ url_for('index') }}><i class="iconfont">&#xe601;</i> Delete</a></li>
+    <li><a href={{ url_for('edit_modify',post_id=post.post_id) }}><i class="iconfont">&#xe635;</i> Modify</a></li>
 {% endblock %}
 
 {% block content %}
-    <div class="mdui-text-center"><h2>{{ post.title }}</h2></div>
-    <div class="mdui-valign"><i class="mdui-icon material-icons mdui-text-color-grey">&#xe916;</i>{{ post.date }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="mdui-icon material-icons mdui-text-color-grey">&#xe54e;</i>{{ post.tags }}<br/></div>
-    <div class="mdui-typo">
+    <div><h2>{{ post.title }}</h2></div>
+    <div><i  style="font-size: .9em;" class="iconfont">&#xe61c;</i> {{ post.date }}&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-size: .9em;" class="iconfont">&#xeae5;</i> {{ post.tags }}<br/></div>
+    <div>
       <blockquote>
         {{ post.subtitle }}
       </blockquote>
     </div>
     {% autoescape false %}
-    <div class="post-content markdown-body">{{ post.content }}</div>
+    <div class="post_content markdown-body">{{ post.content }}</div>
     {% endautoescape %}
 {% endblock %}

@@ -114,7 +114,6 @@
   display: block;
   width: 100%;
   overflow: auto;
-  word-break: normal;
   word-break: keep-all;
   border-collapse: collapse;
   border-spacing: 0;
@@ -220,4 +219,7 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0;
+}
+.markdown-body li{
+  display: list-item;
 }

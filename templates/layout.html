@@ -7,8 +7,9 @@
     <title>{% block title %}Cabana{% endblock %}</title>
     <Link Rel="shortcut icon" href={{ url_for("static", filename="./images/favicon.ico") }}>
     <script src="https://cdn.staticfile.org/jquery/2.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./layui/css/layui.css") }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/mine.css") }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/tagsinput.css") }}"/>
+    <link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_y43cvakcxky5jyvi.css"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/pygments.css") }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="./css/markdown.css") }}"/>
 </head>
@@ -17,14 +18,13 @@
 <div class="page">
 
     <span class="menu_toggle">
-        <i class="menu_open layui-icon">&#xe602;</i>
-        <i class="menu_close layui-icon">&#xe603;</i>
+        <i class="menu_open iconfont">&#xe61e;</i>
+        <i class="menu_close iconfont">&#xe63d;</i>
     </span>
 
     <ul class="menu_items">
-        <li><a href="{{ url_for('edit') }}"><i class="layui-icon">&#xe654;</i> Add Post</a></li>
-        <li><a href="{{ url_for('files') }}"><i class="layui-icon">&#xe621;</i> File Manager</a></li>
-        <li><a href="#"><i class="layui-icon">&#xe650;</i> About</a></li>
+        {% block menu %}{% endblock %}
+        <li><a href="#"><i class="iconfont">&#xe600;</i> About</a></li>
     </ul>
 
     <main class="content">
@@ -35,14 +35,13 @@
             <div class="footer">
                 {% block footer %}
                     <footer>Copyright 2016 by <a href="https://github.com/kangyang1024">kang</a>.Powered by
-                        <a
-                                href="http://flask.pocoo.org/">Flask</a></footer>
+                        <a href="http://flask.pocoo.org/">Flask</a></footer>
                 {% endblock %}
             </div>
         </div>
     </main>
 </div>
-<script src={{ url_for("static",filename="./layui/layui.js") }}></script>
+<script src={{ url_for("static",filename="./js/tagsinput.min.js") }}></script>
 <script src={{ url_for("static",filename="./js/mine.js") }}></script>
 </body>
 

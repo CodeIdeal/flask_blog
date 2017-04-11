@@ -7,21 +7,24 @@
     Home
 {% endblock %}
 
+{% block menu %}
+    <li><a href="{{ url_for('edit_add') }}"><i class="iconfont">&#xe63e;</i> Add Post</a></li>
+    <li><a href="{{ url_for('files') }}"><i class="iconfont">&#xe829;</i> File Manager</a></li>
+{% endblock %}
+
 {% block content %}
     <ul>
     {% for post in posts %}
-        <li class="post">
+        <article  class="post">
             <p class="post_title"><a href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></p>
-            <p class="post_info"><span><i style="font-size: .9em"; class="layui-icon">&#xe60e;</i> {{ post.date }}</span> <span><i style="font-size: .9em"; class="layui-icon">&#xe627;</i> {{ post.tags }}</span></p>
+            <p class="post_info"><span><i style="font-size: .9em;" class="iconfont">&#xe61c;</i> {{ post.date }}</span> <span><i style="font-size: .9em;" class="iconfont">&#xeae5;</i> {{ post.tags }}</span></p>
             <p class="subtitle">{{ post.subtitle }}</p>
-        </li>
+        </article>
         <hr>
     {% endfor %}
     </ul>
 
-    <div id="page_number"/>
-
-    <div class="mdui-text-center" style="margin-top: 1.5em">
+   <div style="margin-top: 1.5em">
         {% if pages > 5 %}
             {% if cur_page <= 3 %}
                 {% for i in range(4) %}

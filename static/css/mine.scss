@@ -13,6 +13,7 @@ html,
 body {
   height: 100%;
   overflow: hidden;
+  margin: 0;
 }
 
 .page {
@@ -28,10 +29,6 @@ body {
 
   // styling
   background-color: $whitey;
-
-  /*wrote by myself*/
-  z-index: 100; // fix the menu_items overlap on content
-  width: 100%;
 }
 
 .content_inner {
@@ -40,12 +37,11 @@ body {
   overflow-y: auto; // set expected overflow
 
   // styling
-  padding: 50px 20%;
+  padding: 50px 15%;
 
   /*wrote by my self*/
-  z-index: 50; // fix the menu_items overlap on content
   width: 100%;
-  word-wrap:break-word
+  word-wrap: break-word
 }
 
 /* basically all styling from now on */
@@ -56,7 +52,7 @@ body {
   left: 0;
   display: block;
   cursor: pointer;
-  width: 100px;
+  width: 80px;
   height: 80px;
   background-color: $red;
   border-bottom-right-radius: 100%;
@@ -208,31 +204,47 @@ body {
 }
 
 /* wrote by myself*/
+
+li {
+  display: block;
+}
+
 .logo {
   font-weight: 100;
   font-size: xx-large;
 }
 
-.post_title{
+.post_title {
   font-weight: 100;
   font-size: 1.4em;
 }
 
-.post_info{
+.post_info {
   font-weight: 100;
   font-size: .9em;
 }
 
-.subtitle{
+.post_content {
+  padding:1em;
+}
+
+.subtitle {
   font-weight: 100;
   font-size: 16px;
 }
 
-// Adjust the menu button size when mobile browser
+main {
+  /*wrote by myself*/
+  z-index: 100; // fix the menu_items overlap on content
+  position: relative;
+}
+
+//Response layout
 @media screen and (max-width: 640px) {
+  // Adjust the menu button size when mobile browser
   .menu_toggle {
-    width: 50px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     box-shadow: 0 0 8px #aaaaaa;
   }
 }

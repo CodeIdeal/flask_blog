@@ -91,7 +91,7 @@ def add():
 
 
 @app.route('/edit/new')
-def edit():
+def edit_add():
     return render_template("edit.html")
 
 
