@@ -30,9 +30,11 @@
     <main class="content">
         <div class="content_inner">
             <a href="{{ url_for('index') }}" class="logo">Cabana</a>
-            <div>{% block content %}{% endblock %}</div>
+            <div>
+                {% block content %}{% endblock %}
+            </div>
             <div class="site-cache" id="site-cache"></div>
-            <footer id="footer">©&nbsp;2017&nbsp;-&nbsp;?&nbsp;<a href="https://github.com/kangyang1024">kang</a><br/>Powered by <a href="http://flask.pocoo.org/">Flask</a></footer>
+            <footer id="footer">©&nbsp;2017&nbsp;-&nbsp;<a href="{{ url_for('login') }}">?</a>&nbsp;<a href="https://github.com/kangyang1024">kang</a><br/>Powered by <a href="http://flask.pocoo.org/">Flask</a></footer>
         </div>
     </main>
 </div>

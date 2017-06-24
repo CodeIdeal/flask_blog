@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}
+    Login
+{% endblock %}
+
+{% block small_title %}
+    Login
+{% endblock %}
+
+{% block content %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <P>{{ message }}</P>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% if session.logged_in %}
+        <p>You are already logged in! Do you want <a href="{{ url_for('logout') }}">logout</a>?</p>
+        <p><i id="count_down">5</i> seconds later, jump to the home page</p>
+        <script>
+            var count = 5;
+            function count_down(){
+                document.getElementById("count_down").innerHTML= count.toString();
+                if(count===0){
+                    location.href='/';
+                }else {
+                    count -= 1;
+                    setTimeout("count_down()",1000);
+                }
+            }
+            count_down();
+        </script>
+    {% else %}
+    <form action="{{ url_for('login_submit') }}" method=post>
+        <p><input type=text name=username>
+        <p><input type=password name=passwd>
+        <p><input type=submit value=Login>
+    </form>
+    {% endif %}
+{% endblock %}

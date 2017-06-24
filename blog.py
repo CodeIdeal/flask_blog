@@ -5,10 +5,11 @@ import mistune
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.secret_key = '81lgSBFtwY^77#IZj8LDv$InOCN4sWp#'
 app.config['DB_PATH'] = "./blog.db"
 app.config['USER_NAME'] = 'kaka'
 app.config['USER_PASSWD'] = '2333'
@@ -56,12 +57,15 @@ def download(src):
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    file = request.files['file']
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join((app.config['UPLOAD_FOLDER']), filename))
-        return redirect(url_for('files'))
-    return redirect(url_for('error'))
+    if session['logged_in']:
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join((app.config['UPLOAD_FOLDER']), filename))
+            return redirect(url_for('files'))
+        return redirect(url_for('error'))
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/error')
@@ -104,18 +108,54 @@ def edit_modify(post_id):
 
 @app.route('/modify', methods=['POST'])
 def modify():
-    update_post(request.form['post_id'], request.form['title'], request.form['subtitle'], request.form['content'],
-                request.form['tags'], request.form['post_date'])
-    return redirect(url_for('post', post_id=request.form['post_id']))
+    if session['logged_in']:
+        update_post(request.form['post_id'], request.form['title'], request.form['subtitle'], request.form['content'],
+                    request.form['tags'], request.form['post_date'])
+        return redirect(url_for('post', post_id=request.form['post_id']))
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/delete', methods=['POST'])
 def delete():
-    delete_post(request.form['post_id'])
+    if session['logged_in']:
+        delete_post(request.form['post_id'])
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/login', methods=['GET'])
+def login():
+    return render_template('login.html')
+
+
+@app.route('/login_submit', methods=['POST'])
+def login_submit():
+    if login_session(request.form['username'], request.form['passwd']):
+        return redirect(url_for('index'))
+    else:
+        flash('login failed!')
+        return redirect(url_for('login'))
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    session.pop('logged_in', False)
     return redirect(url_for('index'))
-
-
 # ============route end============
+
+
+# ============Login start============
+def login_session(username,passwd):
+    if username == app.config['USER_NAME'] and passwd == app.config['USER_PASSWD']:
+        session['username'] = request.form['username']
+        session['logged_in'] = True
+        return True
+    return False
+
+# ============Login start============
 
 
 # ============Post function start============
@@ -163,7 +203,7 @@ def get_posts_by_index(page_index):
 def get_posts_num():
     cursor = get_cursor().execute("SELECT COUNT(*) FROM posts")
     return cursor.fetchone()[0]
-# ============DB function end============
+# ============Post function end============
 
 
 # ============DB function start============
