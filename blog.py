@@ -41,7 +41,8 @@ def index():
     return render_template("index.html", posts=posts, cur_page=0, pages=(int(get_posts_num() / 10) + 1))
 
 
-@app.route('/<int:page_index>')  # page_index 是以1开始计数的
+# page_index start with 1
+@app.route('/<int:page_index>')  
 def page(page_index):
     posts = get_posts_by_index(page_index)
     num = get_posts_num()
