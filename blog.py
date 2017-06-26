@@ -5,7 +5,7 @@ import mistune
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash, make_response, jsonify
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -57,7 +57,7 @@ def download(src):
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    if session['logged_in']:
+    if 'logged_in' in session and session['logged_in']:
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
@@ -108,7 +108,7 @@ def edit_modify(post_id):
 
 @app.route('/modify', methods=['POST'])
 def modify():
-    if session['logged_in']:
+    if 'logged_in' in session and session['logged_in']:
         update_post(request.form['post_id'], request.form['title'], request.form['subtitle'], request.form['content'],
                     request.form['tags'], request.form['post_date'])
         return redirect(url_for('post', post_id=request.form['post_id']))
@@ -118,11 +118,15 @@ def modify():
 
 @app.route('/delete', methods=['POST'])
 def delete():
-    if session['logged_in']:
+    response = {'isLogin': False, 'deleted': False}
+    if 'logged_in' in session and session['logged_in']:
         delete_post(request.form['post_id'])
-        return redirect(url_for('index'))
+        response['isLogin'] = True
+        response['deleted'] = True
     else:
-        return redirect(url_for('login'))
+        response['isLogin'] = False
+        response['deleted'] = False
+    return jsonify(response)
 
 
 @app.route('/login', methods=['GET'])

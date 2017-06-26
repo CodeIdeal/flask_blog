@@ -5,7 +5,13 @@
 
 // 删除文章
 function own_delete_post(arg) {
-    $.post("/delete", {post_id: arg})
+    $.post("/delete", {post_id: arg},function (result) {
+        if(result.isLogin && result.deleted){
+            window.location.href='/'
+        }else {
+            window.location.href='/login'
+        }
+    })
 }
 
 // 旋转菜单js
