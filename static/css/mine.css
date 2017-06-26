@@ -145,6 +145,22 @@ main {
 a {
   text-decoration: none; }
 
+blockquote {
+  font-size: 1em;
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.5em 1em 0.5em 1em;
+  margin: 0.5em 0 0.5em 0;
+  border-left: 10px solid rgba(0, 0, 0, 0.1);
+  transition: border-left 0.5s;
+  -webkit-transition: border-left 0.5s;
+  -moz-transition: border-left 0.5s;
+  -ms-transition: border-left 0.5s;
+  -o-transition: border-left 0.5s; }
+
+blockquote:hover {
+  border-left: 10px solid #F37272; }
+
 .logo {
   font-weight: 100;
   font-size: xx-large; }
