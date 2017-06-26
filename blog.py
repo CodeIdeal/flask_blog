@@ -18,7 +18,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'apk', 'zip', '
 
 
 class HighlightRenderer(mistune.Renderer):
-    def block_code(self, code, lang):
+    def block_code(self, code, lang=None):
         if not lang:
             return '\n<pre><code>%s</code></pre>\n' % \
                    mistune.escape(code)
@@ -148,7 +148,7 @@ def logout():
 
 
 # ============Login start============
-def login_session(username,passwd):
+def login_session(username, passwd):
     if username == app.config['USER_NAME'] and passwd == app.config['USER_PASSWD']:
         session['username'] = request.form['username']
         session['logged_in'] = True
@@ -159,19 +159,22 @@ def login_session(username,passwd):
 
 
 # ============Post function start============
+# noinspection SqlNoDataSourceInspection,SqlResolve
 def add_post(title, subtitle, content, tags, post_date):
     db = get_db()
-    db.execute("INSERT INTO posts (title,subtitle,content,tags,post_date) VALUES(?,?,?,?,?)"
-               , [title, subtitle, content, tags, post_date])
+    db.execute("INSERT INTO posts (title,subtitle,content,tags,post_date) VALUES(?,?,?,?,?)",
+               [title, subtitle, content, tags, post_date])
     db.commit()
 
 
+# noinspection SqlNoDataSourceInspection,SqlResolve
 def delete_post(post_id):
     db = get_db()
     db.execute("DELETE FROM posts WHERE post_id = ?", (post_id,))
     db.commit()
 
 
+# noinspection SqlNoDataSourceInspection,SqlResolve
 def update_post(post_id, title, subtitle, content, tags, post_date):
     db = get_db()
     db.execute("UPDATE posts SET title=?,subtitle=?,content=?,tags=?,post_date=? WHERE post_id=?",
@@ -179,6 +182,7 @@ def update_post(post_id, title, subtitle, content, tags, post_date):
     db.commit()
 
 
+# noinspection SqlNoDataSourceInspection,SqlResolve
 def get_post(pots_id):
     cursor = get_cursor().execute(
         "SELECT post_id, title, subtitle, content, tags, post_date FROM posts WHERE post_id=?", (pots_id,))
@@ -187,19 +191,23 @@ def get_post(pots_id):
                 date=poster[5])
 
 
+# noinspection SqlNoDataSourceInspection,SqlResolve
 def get_all_posts():
     cursor = get_cursor().execute(
         "SELECT post_id, title, subtitle, tags, post_date FROM posts ORDER BY post_id DESC ")
     return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4]) for row in cursor.fetchall()]
 
 
+# noinspection SqlNoDataSourceInspection,SqlResolve
 def get_posts_by_index(page_index):
     cursor = get_cursor().execute(
         "SELECT post_id, title, subtitle, tags, post_date, content FROM posts ORDER BY post_id DESC LIMIT 10 OFFSET ?",
         ((page_index-1)*10,))
-    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4], content=row[5]) for row in cursor.fetchall()]
+    return [dict(post_id=row[0], title=row[1], subtitle=row[2], tags=row[3], date=row[4],
+                 content=row[5]) for row in cursor.fetchall()]
 
 
+# noinspection SqlNoDataSourceInspection,SqlResolve
 def get_posts_num():
     cursor = get_cursor().execute("SELECT COUNT(*) FROM posts")
     return cursor.fetchone()[0]
@@ -218,8 +226,8 @@ def init_db():
 
 
 def get_db():
-    dir = app.config['DB_PATH']
-    isfile = os.path.isfile(dir)
+    db_dir = app.config['DB_PATH']
+    isfile = os.path.isfile(db_dir)
     if not isfile:
         init_db()
     connect = sqlite3.connect(app.config['DB_PATH'])
