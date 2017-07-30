@@ -17,7 +17,7 @@
         <ul>
             {% for post in posts %}
                 <article  class="post">
-                    <p class="post_title"><a href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></p>
+                    <h1 class="post_title"><a href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></h1>
                     <p class="post_info"><span><i style="font-size: .9em;" class="iconfont">&#xe61c;</i> {{ post.date }}</span> <span><i style="font-size: .9em;" class="iconfont">&#xeae5;</i> {{ post.tags }}</span></p>
                     <p class="subtitle">{{ post.subtitle }}</p>
                 </article>
