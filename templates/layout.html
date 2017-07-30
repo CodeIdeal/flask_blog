@@ -24,7 +24,7 @@
 
     <ul class="menu_items">
         {% block menu %}{% endblock %}
-        <li><a href="#"><i class="iconfont">&#xe600;</i> About</a></li>
+        <li><a href="{{ url_for('about.about') }}"><i class="iconfont">&#xe600;</i> About</a></li>
     </ul>
 
     <main class="content">

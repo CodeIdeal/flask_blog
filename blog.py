@@ -5,7 +5,7 @@ import mistune
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash, make_response, jsonify
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash, jsonify, Blueprint
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -14,6 +14,7 @@ app.config['DB_PATH'] = "./blog.db"
 app.config['USER_NAME'] = 'kaka'
 app.config['USER_PASSWD'] = '2333'
 app.config['UPLOAD_FOLDER'] = "./static/up_down_load"
+app.config['SERVER_NAME'] = "cabana.tech"
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'apk', 'zip', '7z', 'rar'}
 
 
@@ -35,7 +36,16 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
+about = Blueprint('about', "cabana", subdomain='about')
+app.register_blueprint(about)
+
+
 # ============route start============
+@about.route('/')
+def about():
+    return render_template("about.html", imgurl="http://www.bing.com//az/hprichbg/rb/LosMonegros_ZH-CN14671427222_1920x1080.jpg")
+
+
 @app.route('/')
 def index():
     posts = get_posts_by_index(0)
