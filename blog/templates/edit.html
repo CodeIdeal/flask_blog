@@ -9,7 +9,7 @@
 
 {% block content %}
     {% if post %}
-        <form action="{{ url_for('modify') }}" method="POST" class="add">
+        <form action="{{ url_for('.modify') }}" method="POST" class="add">
             <dl>
                 {#为了在post中加上id和日期参数，又不在页面中显示出来#}
                 <input type='hidden' name='post_id' value={{ post.post_id }}>
@@ -26,7 +26,7 @@
             </dl>
         </form>
     {% else %}
-        <form action="{{ url_for('add') }}" method=post class="add">
+        <form action="{{ url_for('.add') }}" method=post class="add">
             <dl>
                 <dt>title:</dt>
                 <dd><input type=text size=30 name=title></dd>

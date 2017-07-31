@@ -9,9 +9,9 @@
 
 {% block content %}
     {% for file in files %}
-        <a href="{{ url_for('download',src=file) }}">{{ file }}</a><br/>
+        <a href="{{ url_for('.download',src=file) }}">{{ file }}</a><br/>
     {% endfor %}
-    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" class="upload">
+    <form action="{{ url_for('.upload') }}" method="post" enctype="multipart/form-data" class="upload">
         <input name="file" type="file"/>
         <input type="submit" value="Submit">
     </form>

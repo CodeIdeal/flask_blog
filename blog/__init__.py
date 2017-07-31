@@ -5,17 +5,9 @@ import mistune
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash, jsonify, Blueprint
+from flask import render_template, request, redirect, url_for, send_from_directory, session, flash, jsonify, Blueprint, current_app
 from werkzeug.utils import secure_filename
-
-app = Flask(__name__)
-app.secret_key = '81lgSBFtwY^77#IZj8LDv$InOCN4sWp#'
-app.config['DB_PATH'] = "./blog.db"
-app.config['USER_NAME'] = 'kaka'
-app.config['USER_PASSWD'] = '2333'
-app.config['UPLOAD_FOLDER'] = "./static/up_down_load"
-app.config['SERVER_NAME'] = "cabana.tech"
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'apk', 'zip', '7z', 'rar'}
+from config import Blog
 
 
 class HighlightRenderer(mistune.Renderer):
@@ -28,105 +20,93 @@ class HighlightRenderer(mistune.Renderer):
         return highlight(code, lexer, formatter)
 
 
+blog = Blueprint('blog', __name__, static_folder='static', template_folder='templates', subdomain='blog')
 renderer = HighlightRenderer()
 markdown = mistune.Markdown(renderer=renderer)
 
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
-about = Blueprint('about', "cabana", subdomain='about')
-app.register_blueprint(about)
-
-
 # ============route start============
-@about.route('/')
-def about():
-    return render_template("about.html", imgurl="http://www.bing.com//az/hprichbg/rb/LosMonegros_ZH-CN14671427222_1920x1080.jpg")
-
-
-@app.route('/')
+@blog.route('/')
 def index():
     posts = get_posts_by_index(0)
     return render_template("index.html", posts=posts, cur_page=0, pages=(int(get_posts_num() / 10) + 1))
 
 
 # page_index start with 1
-@app.route('/<int:page_index>')  
+@blog.route('/<int:page_index>')
 def page(page_index):
     posts = get_posts_by_index(page_index)
     num = get_posts_num()
     return render_template("index.html", posts=posts, cur_page=page_index, pages=(int(num / 10) + 1))
 
 
-@app.route('/download/<string:src>')
+@blog.route('/download/<string:src>')
 def download(src):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], src)
+    return send_from_directory(Blog.ALLOWED_EXTENSIONS, src)
 
 
-@app.route('/upload', methods=['POST'])
+@blog.route('/upload', methods=['POST'])
 def upload():
     if 'logged_in' in session and session['logged_in']:
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join((app.config['UPLOAD_FOLDER']), filename))
-            return redirect(url_for('files'))
-        return redirect(url_for('error'))
+            file.save(os.path.join(Blog.UPLOAD_FOLDER, filename))
+            return redirect(url_for('.files'))
+        return redirect(url_for('.error'))
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('.login'))
 
 
-@app.route('/error')
+@blog.route('/error')
 def error():
     return render_template("error.html")
 
 
-@app.route('/files')
+@blog.route('/files')
 def files():
     dir_files = []
-    for i in os.listdir(app.config['UPLOAD_FOLDER']):
+    for i in os.listdir(Blog.UPLOAD_FOLDER):
         dir_files.append(i)
     return render_template("fileManager.html", files=dir_files)
 
 
-@app.route('/post/<int:post_id>')
+@blog.route('/post/<int:post_id>')
 def post(post_id):
     poster = get_post(post_id)
     poster['content'] = markdown(poster['content'])
     return render_template("post.html", post=poster)
 
 
-@app.route('/add', methods=['POST'])
+@blog.route('/add', methods=['POST'])
 def add():
     add_post(request.form['title'], request.form['subtitle'], request.form['content'], request.form['tags'],
              sqlite3.Date.today())
-    return redirect(url_for('index'))
+    return redirect(url_for('.index'))
 
 
-@app.route('/edit/new')
+@blog.route('/edit/new')
 def edit_add():
     return render_template("edit.html")
 
 
-@app.route('/edit/<int:post_id>')
+@blog.route('/edit/<int:post_id>')
 def edit_modify(post_id):
     poster = get_post(post_id)
     return render_template('edit.html', post=poster)
 
 
-@app.route('/modify', methods=['POST'])
+@blog.route('/modify', methods=['POST'])
 def modify():
     if 'logged_in' in session and session['logged_in']:
         update_post(request.form['post_id'], request.form['title'], request.form['subtitle'], request.form['content'],
                     request.form['tags'], request.form['post_date'])
-        return redirect(url_for('post', post_id=request.form['post_id']))
+        return redirect(url_for('.post', post_id=request.form['post_id']))
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('.login'))
 
 
-@app.route('/delete', methods=['POST'])
+@blog.route('/delete', methods=['POST'])
 def delete():
     response = {'isLogin': False, 'deleted': False}
     if 'logged_in' in session and session['logged_in']:
@@ -139,31 +119,31 @@ def delete():
     return jsonify(response)
 
 
-@app.route('/login', methods=['GET'])
+@blog.route('/login', methods=['GET'])
 def login():
     return render_template('login.html')
 
 
-@app.route('/login_submit', methods=['POST'])
+@blog.route('/login_submit', methods=['POST'])
 def login_submit():
     if login_session(request.form['username'], request.form['passwd']):
-        return redirect(url_for('index'))
+        return redirect(url_for('.index'))
     else:
         flash('login failed!')
-        return redirect(url_for('login'))
+        return redirect(url_for('.login'))
 
 
-@app.route('/logout')
+@blog.route('/logout')
 def logout():
     session.pop('username', None)
     session.pop('logged_in', False)
-    return redirect(url_for('index'))
+    return redirect(url_for('.index'))
 # ============route end============
 
 
 # ============Login start============
 def login_session(username, passwd):
-    if username == app.config['USER_NAME'] and passwd == app.config['USER_PASSWD']:
+    if username == Blog.USER_NAME and passwd == Blog.USER_PASSWD:
         session['username'] = request.form['username']
         session['logged_in'] = True
         return True
@@ -230,21 +210,21 @@ def get_posts_num():
 
 # ============DB function start============
 def init_db():
-    db_file = open(app.config['DB_PATH'], 'w')
+    db_file = open(Blog.DB_PATH, 'w')
     db_file.close()
-    db = sqlite3.connect(app.config['DB_PATH'])
+    db = sqlite3.connect(Blog.DB_PATH)
     cursor = db.cursor()
-    sql = app.open_resource("db.sql").read()
+    sql = current_app.open_resource("db.sql").read()
     cursor.executescript(sql.decode("utf-8"))
     db.commit()
 
 
 def get_db():
-    db_dir = app.config['DB_PATH']
+    db_dir = Blog.DB_PATH
     isfile = os.path.isfile(db_dir)
     if not isfile:
         init_db()
-    connect = sqlite3.connect(app.config['DB_PATH'])
+    connect = sqlite3.connect(Blog.DB_PATH)
     connect.row_factory = sqlite3.Row
     return connect
 
@@ -255,5 +235,5 @@ def get_cursor():
 
 # ============DB function end============
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in Blog.ALLOWED_EXTENSIONS

@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block menu %}
-    <li><a href="{{ url_for('edit_add') }}"><i class="iconfont">&#xe63e;</i> New</a></li>
-    <li><a href="{{ url_for('files') }}"><i class="iconfont">&#xe829;</i> Files</a></li>
+    <li><a href="{{ url_for('.edit_add') }}"><i class="iconfont">&#xe63e;</i> New</a></li>
+    <li><a href="{{ url_for('.files') }}"><i class="iconfont">&#xe829;</i> Files</a></li>
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
         <ul>
             {% for post in posts %}
                 <article  class="post">
-                    <h1 class="post_title"><a href={{ url_for('post', post_id=post.post_id) }}>{{ post.title }}</a></h1>
+                    <h1 class="post_title"><a href={{ url_for('.post', post_id=post.post_id) }}>{{ post.title }}</a></h1>
                     <p class="post_info"><span><i style="font-size: .9em;" class="iconfont">&#xe61c;</i> {{ post.date }}</span> <span><i style="font-size: .9em;" class="iconfont">&#xeae5;</i> {{ post.tags }}</span></p>
                     <p class="subtitle">{{ post.subtitle }}</p>
                 </article>
@@ -32,35 +32,35 @@
                         {% if cur_page == (i + 1) %}
                             {{ i + 1 }}
                         {% else %}
-                            <a href={{ url_for('page', page_index=i + 1) }}>{{ i + 1 }}</a>
+                            <a href={{ url_for('.page', page_index=i + 1) }}>{{ i + 1 }}</a>
                         {% endif %}
 
                     {% endfor %}
                     ...
-                    <a href={{ url_for('page', page_index=pages) }}>{{ pages }}</a>
+                    <a href={{ url_for('.page', page_index=pages) }}>{{ pages }}</a>
                 {% elif cur_page >3 and cur_page <= pages-3 %}
-                    <a href={{ url_for('page', page_index=1) }}>{{ 1 }}</a>
+                    <a href={{ url_for('.page', page_index=1) }}>{{ 1 }}</a>
                     ...
-                    <a href={{ url_for('page', page_index=cur_page - 1) }}>{{ cur_page - 1 }}</a>
+                    <a href={{ url_for('.page', page_index=cur_page - 1) }}>{{ cur_page - 1 }}</a>
                     {{ cur_page }}
-                    <a href={{ url_for('page', page_index=cur_page + 1) }}>{{ cur_page + 1 }}</a>
+                    <a href={{ url_for('.page', page_index=cur_page + 1) }}>{{ cur_page + 1 }}</a>
                     ...
-                    <a href={{ url_for('page', page_index=pages) }}>{{ pages }}</a>
+                    <a href={{ url_for('.page', page_index=pages) }}>{{ pages }}</a>
                 {% else %}
-                    <a href={{ url_for('page', page_index=1) }}>{{ 1 }}</a>
+                    <a href={{ url_for('.page', page_index=1) }}>{{ 1 }}</a>
                     ...
                     {% for i in range(4) %}
                         {% if cur_page == pages - (3 - i) %}
                             {{ pages - (3 - i) }}
                         {% else %}
-                            <a href={{ url_for('page', page_index=pages - (3 - i)) }}>{{ pages - (3 - i)}}</a>
+                            <a href={{ url_for('.page', page_index=pages - (3 - i)) }}>{{ pages - (3 - i)}}</a>
                         {% endif %}
 
                     {% endfor %}
                 {% endif %}
             {% else %}
                 {% for i in range(pages) %}
-                    <a href={{ url_for('page', page_index=i + 1) }}>{{ i + 1 }}</a>
+                    <a href={{ url_for('.page', page_index=i + 1) }}>{{ i + 1 }}</a>
                 {% endfor %}
             {% endif %}
         </div>
