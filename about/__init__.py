@@ -5,5 +5,4 @@ about = Blueprint("about", __name__, static_folder='static', template_folder='te
 
 @about.route("/")
 def about_page():
-    return render_template("about.html",
-                           imgurl="http://cn.bing.com/az/hprichbg/rb/Mellieha_ZH-CN10970369201_1920x1080.jpg")
+    return render_template("about.html", imgurl="https://bing.ioliu.cn/v1?d=0&w=1920&h=1080")
