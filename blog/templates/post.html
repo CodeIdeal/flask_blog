@@ -24,3 +24,7 @@
     <div class="post_content markdown-body">{{ post.content }}</div>
     {% endautoescape %}
 {% endblock %}
+
+{% block script %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for(".static",filename="./css/markdown.css") }}"/>
+{% endblock %}
