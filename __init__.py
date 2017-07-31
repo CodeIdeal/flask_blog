@@ -20,6 +20,3 @@ app.register_blueprint(about)
 @app.route("/")
 def main():
     return redirect(url_for('blog.index'))
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
