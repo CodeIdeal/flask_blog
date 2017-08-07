@@ -3,6 +3,10 @@
     Add new post!
 {% endblock %}
 
+{% block link %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+{% endblock %}
+
 {% block small_title %}
     New Post
 {% endblock %}
@@ -21,7 +25,8 @@
                 <dt>summary:</dt>
                 <dd><textarea type="text" size=30 name=subtitle>{{ post.subtitle }}</textarea></dd>
                 <dt>content:</dt>
-                <dd><textarea  size=30 name=content>{{ post.content }}</textarea></dd>
+                <dd><textarea id="Markdown" size=30 name=content>{{ post.content }}</textarea></dd>
+
                 <dd><input type="submit" value="Submit"></dd>
             </dl>
         </form>
@@ -40,4 +45,11 @@
             </dl>
         </form>
     {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>
+        var simplemde = new SimpleMDE({ element: $("#Markdown")[0] });
+    </script>
 {% endblock %}
