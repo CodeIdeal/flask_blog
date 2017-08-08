@@ -1,0 +1,1 @@
+0 0 * * * cp /root/flask_blog/blog/blog.db /root/flask_blog/blog/db.backup >/dev/null 2>&1
