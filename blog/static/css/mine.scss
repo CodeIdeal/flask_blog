@@ -276,4 +276,17 @@ blockquote:hover {
     height: 60px;
     box-shadow: 0 0 8px #aaaaaa;
   }
+
+  .content_inner {
+    // essential
+    height: 50%; // compensate for higher .content
+    overflow-y: auto; // set expected overflow
+
+    // styling
+    padding: 50px 0.5em 0 0.5em;
+
+    /*wrote by my self*/
+    width: 100%;
+    word-wrap: break-word
+  }
 }
