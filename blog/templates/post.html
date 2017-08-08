@@ -3,6 +3,10 @@
     {{ post.title }}
 {% endblock %}
 
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for(".static",filename="./css/markdown.css") }}"/>
+{% endblock %}
+
 {% block small_title %}
     {{ post.title }}
 {% endblock %}
@@ -25,6 +29,3 @@
     {% endautoescape %}
 {% endblock %}
 
-{% block script %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for(".static",filename="./css/markdown.css") }}"/>
-{% endblock %}
