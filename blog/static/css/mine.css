@@ -136,8 +136,10 @@ body {
 li {
   display: block; }
 
+ul {
+  -webkit-padding-start: 0em; }
+
 main {
-  /*wrote by myself*/
   z-index: 100;
   position: relative; }
 
