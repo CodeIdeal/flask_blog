@@ -222,6 +222,10 @@ a {
   text-decoration: none;
 }
 
+.highlight{
+  -webkit-overflow-scrolling: touch;
+}
+
 blockquote {
   font-size:1em;
   font-style:italic;
