@@ -15,28 +15,19 @@
 </head>
 
 <body translate="no">
-<div class="page">
-
-    <span class="menu_toggle">
-        <i class="menu_open iconfont">&#xe61e;</i>
-        <i class="menu_close iconfont">&#xe63d;</i>
-    </span>
-
-    <ul class="menu_items">
+<div class="container">
+    <ul id="nav">
+        <li><a href="{{ url_for('.index') }}" class="logo">Cabana</a></li>
         {% block menu %}{% endblock %}
         <li><a href="{{ url_for('about.about_page') }}"><i class="iconfont">&#xe600;</i> About</a></li>
     </ul>
 
-    <main class="content">
-        <div class="content_inner">
-            <a href="{{ url_for('.index') }}" class="logo">Cabana</a>
-            <div>
-                {% block content %}{% endblock %}
-            </div>
-            <div class="site-cache" id="site-cache"></div>
+    <div class="content">
+        <main>
+            {% block content %}{% endblock %}
             <footer id="footer">©&nbsp;2017&nbsp;-&nbsp;<a href="{{ url_for('.login') }}">?</a>&nbsp;<a href="https://github.com/kangyang1024">kang</a><br/>Powered by <a href="http://flask.pocoo.org/">Flask</a></footer>
-        </div>
-    </main>
+        </main>
+    </div>
 </div>
 <script src={{ url_for(".static",filename="./js/tagsinput.min.js") }}></script>
 <script src={{ url_for(".static",filename="./js/mine.js") }}></script>

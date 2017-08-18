@@ -1,147 +1,20 @@
-* {
-  box-sizing: border-box; }
-
-html,
-body {
-  height: 100%;
-  overflow: hidden;
-  margin: 0; }
-
-.page {
-  height: 100%;
-  background-color: #584E4A; }
-
-.content {
-  height: 200%;
-  transform-origin: top left;
-  transition: transform 0.7s cubic-bezier(1, 0.005, 0.24, 1);
-  background-color: #f0f0f0; }
-
-.content_inner {
-  height: 50%;
-  overflow-y: auto;
-  padding: 50px 15% 0 15%;
-  /*wrote by my self*/
-  width: 100%;
-  word-wrap: break-word; }
-
-/* basically all styling from now on */
-.menu_toggle {
-  z-index: 900;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: block;
-  cursor: pointer;
-  width: 80px;
-  height: 80px;
-  background-color: #F37272;
-  border-bottom-right-radius: 100%;
-  /*wrote by my self*/
-  box-shadow: 2px 2px 3px #aaaaaa; }
-  .menu_toggle:active i {
-    opacity: 0.8; }
-  .menu_toggle i {
-    color: #f0f0f0; }
-  .menu_toggle .menu_open,
-  .menu_toggle .menu_close {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -15px;
-    margin-left: -12px;
-    transition: transform 0.7s cubic-bezier(1, 0.005, 0.24, 1); }
-  .menu_toggle .menu_open {
-    transform-origin: -100px -100px; }
-  .menu_toggle .menu_close {
-    transform: rotate(20deg);
-    transform-origin: -100px -160px; }
-
-.menu_items {
-  position: fixed;
-  bottom: 0;
-  left: 50px;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  /*wrote by my self*/
-  z-index: 0; }
-  .menu_items li {
-    height: 60px;
-    margin-bottom: 30px;
-    transform: translateX(-300px);
-    transition: transform 0.7s 0s cubic-bezier(1, 0.005, 0.24, 1); }
-    .menu_items li:nth-child(2) {
-      margin-left: 40px; }
-    .menu_items li:nth-child(3) {
-      margin-left: 80px; }
-  .menu_items a {
-    display: block;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #a4a4a4;
-    transition: color .2s; }
-    .menu_items a .icon {
-      position: relative;
-      display: inline-block;
-      margin-right: 25px;
-      color: #f0f0f0; }
-      .menu_items a .icon:after {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        content: '';
-        display: block;
-        width: 60px;
-        height: 60px;
-        margin-left: -33px;
-        margin-top: -32px;
-        border-radius: 100%;
-        border: 2px solid #f0f0f0;
-        transition: border-color .2s; }
-    .menu_items a:hover {
-      color: #f0f0f0; }
-      .menu_items a:hover .icon:after {
-        border-color: #F37272; }
-    .menu_items a:active .icon {
-      color: #F37272; }
-
-/* Let's open up the menu */
-.shazam {
-  /*.content_inner {
-    height: 100%;
-  }*/ }
-  .shazam .content {
-    transform: rotate(-30deg); }
-  .shazam .menu_open {
-    transform: rotate(-20deg); }
-  .shazam .menu_close {
-    transform: rotate(0); }
-  .shazam .menu_items li {
-    transform: translateX(0);
-    transition: transform 0.35s 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .shazam .menu_items li:nth-child(2) {
-      transition-delay: .47s; }
-    .shazam .menu_items li:nth-child(3) {
-      transition-delay: .48s; }
-
-h1 {
-  padding-bottom: 15px; }
-
-body {
-  color: #584E4A; }
-
 /* wrote by myself*/
+#nav {
+  height: 3em;
+  margin: 0;
+  text-align: center; }
+
+#nav li {
+  vertical-align: bottom;
+  line-height: 3em;
+  margin-right: 0.5em;
+  display: inline-block; }
+
 li {
   display: block; }
 
 ul {
   -webkit-padding-start: 0em; }
-
-main {
-  z-index: 100;
-  position: relative; }
 
 a {
   text-decoration: none; }
@@ -159,12 +32,14 @@ blockquote {
   -ms-transition: border-left 0.5s;
   -o-transition: border-left 0.5s; }
 
-blockquote:hover {
-  border-left: 10px solid #F37272; }
+.content {
+  max-width: 800px;
+  margin: 0 auto; }
 
 .logo {
   font-weight: 100;
-  font-size: xx-large; }
+  font-size: xx-large;
+  margin-right: 1em; }
 
 .post_title {
   font-weight: 100;
@@ -188,17 +63,7 @@ blockquote:hover {
   margin-top: 80px; }
 
 @media screen and (max-width: 640px) {
-  .menu_toggle {
-    width: 60px;
-    height: 60px;
-    box-shadow: 0 0 8px #aaaaaa; }
-
-  .content_inner {
-    height: 50%;
-    overflow-y: auto;
-    padding: 50px 0.5em 0 0.5em;
-    /*wrote by my self*/
-    width: 100%;
-    word-wrap: break-word; } }
+  .content {
+    padding: 1em 0.5em 0 0.5em; } }
 
 /*# sourceMappingURL=mine.css.map */
