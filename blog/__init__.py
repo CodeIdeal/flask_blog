@@ -42,7 +42,7 @@ def page(page_index):
 
 @blog.route('/download/<string:src>')
 def download(src):
-    return send_from_directory(Blog.ALLOWED_EXTENSIONS, src)
+    return send_from_directory(Blog.UPLOAD_FOLDER, src)
 
 
 @blog.route('/upload', methods=['POST'])
