@@ -214,7 +214,7 @@ def init_db():
     db_file.close()
     db = sqlite3.connect(Blog.DB_PATH)
     cursor = db.cursor()
-    sql = current_app.open_resource("db.sql").read()
+    sql = current_app.open_resource(Blog.SQL_PATH).read()
     cursor.executescript(sql.decode("utf-8"))
     db.commit()
 

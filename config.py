@@ -1,6 +1,7 @@
 
 class Blog:
     DB_PATH = "./blog/blog.db"
+    SQL_PATH = "./blog/db.sql"
     USER_NAME = 'kaka'
     USER_PASSWD = '2333'
     UPLOAD_FOLDER = "./blog/static/up_down_load"
